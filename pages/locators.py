@@ -1,20 +1,35 @@
 from selenium.webdriver.common.by import By
 
 
-class MainPageLocators:
-    REGISTRATION_LINK = (By.CSS_SELECTOR, "#login_link")
+class BasePageLocators:
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+    USER_ICON = (By.CSS_SELECTOR, ".icon-user")
+
+
+class MainPageLocators:
+    LOGIN_LINK = (By.CSS_SELECTOR, "#registration_link")
 
 
 class LoginPageLocators:
-    LOGIN_FORM = (By.ID, "login_form")
-    REGISTER_FORM = (By.ID, "register_form")
+    LOG_IN_FORM = (By.CSS_SELECTOR, "#login_form")
+    REGISTER_FORM = (By.CSS_SELECTOR, "#register_form")
+    REGISTER_FORM_EMAIL_FIELD = (By.CSS_SELECTOR, "#id_registration-email")
+    REGISTER_FORM_PASSWORD_FIELD = (By.CSS_SELECTOR, "#id_registration-password1")
+    REGISTER_FORM_PASSWORD_CONF_FIELD = (By.CSS_SELECTOR, "#id_registration-password2")
+    REGISTER_FORM_BUTTON = (By.CSS_SELECTOR, "#register_form .btn-primary")
 
 
 class ProductPageLocators:
-    BUTTON_ADD_TO_CART = (By.CLASS_NAME, "btn-add-to-basket")
-    ALERT_ADDED_TO_CART = (By.CSS_SELECTOR, "div.alertinner strong")
-    ALERT_CART_STATUS = (By.CSS_SELECTOR, ".alert-noicon.alert-info p")
-    PRICE_VALUE = (By.CLASS_NAME, "price_color")
-    PRODUCT_NAME = (By.TAG_NAME, "h1")
-    PRODUCT_PRICE = (By.CSS_SELECTOR, "p.price_color")
+    ADD_TO_BASKET_BUTTON = (By.CSS_SELECTOR, ".btn-primary.btn-add-to-basket")
+    PRODUCT_NAME = (By.CSS_SELECTOR, ".col-sm-6.product_main h1")
+    PRODUCT_PRICE = (By.CSS_SELECTOR, ".col-sm-6.product_main .price_color")
+    ADDED_PRODUCT_NAME = (By.CSS_SELECTOR, ".alert-success.fade strong")
+    ADDED_PRODUCT_PRICE = (By.CSS_SELECTOR, ".alert-info.fade strong")
+
+
+class BasketPageLocators:
+    BASKET_HEADER = (By.CSS_SELECTOR, ".breadcrumb .active")
+    BASKET_VIEW_BUTTON = (By.CSS_SELECTOR, ".btn-group a")
+    BASKET_ITEMS = (By.CSS_SELECTOR, ".basket-items")
+    BASKET_EMPTY_TEXT = (By.CSS_SELECTOR, "#content_inner p")
