@@ -3,34 +3,25 @@ from .locators import ProductPageLocators
 
 
 class ProductPage(BasePage):
-    def add_to_cart(self, is_promo=False) -> None:
-        self.browser.find_element(
-            *ProductPageLocators.BUTTON_ADD_TO_CART).click()
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.ADDED_PRODUCT_NAME), \
+            "The add message is present, but should not be"
 
-        if is_promo:
-            self.solve_quiz_and_get_code()
+    def add_product_to_basket(self):
+        self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET_BUTTON).click()
 
-    def should_be_present_in_cart(self) -> None:
-        assert self.is_element_present(
-            *ProductPageLocators.PRODUCT_NAME), "Product name is not present"
-        assert self.is_element_present(
-            *ProductPageLocators.ALERT_ADDED_TO_CART
-        ), "No alert that a product has been added to cart"
-        alert_text = self.browser.find_element(
-            *ProductPageLocators.ALERT_ADDED_TO_CART).text
-        product_name = self.browser.find_element(
-            *ProductPageLocators.PRODUCT_NAME).text
-        assert product_name == alert_text, \
-            f"The alert contains wrong product name: {alert_text} - {product_name}"
+    def should_be_name_added_product_correct(self):
+        product_name_page = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME).text
+        product_name_basket = self.browser.find_element(*ProductPageLocators.ADDED_PRODUCT_NAME).text
+        assert product_name_page == product_name_basket, \
+            f'The name of the product "{product_name_page}", and added to cart as "{product_name_basket}"'
 
-    def should_check_overall_cost(self) -> None:
-        assert self.is_element_present(
-            *ProductPageLocators.PRODUCT_PRICE), "Product price is not present"
-        assert self.is_element_present(*ProductPageLocators.ALERT_CART_STATUS
-                                       ), "No alert with cart status"
-        alert_text = self.browser.find_element(
-            *ProductPageLocators.ALERT_CART_STATUS).text.split()[-1]
-        product_cost = self.browser.find_element(
-            *ProductPageLocators.PRODUCT_PRICE).text
-        assert product_cost == alert_text, \
-            f"Product cost in cart is not equal to the product cost {alert_text} != {product_cost}"
+    def should_be_price_added_product_correct(self):
+        product_price_page = self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE).text
+        product_price_basket = self.browser.find_element(*ProductPageLocators.ADDED_PRODUCT_PRICE).text
+        assert product_price_page == product_price_basket, \
+            f'The product cost by {product_price_page}, and added to cart by {product_price_basket}'
+
+    def message_disappeared_after_adding_product_to_basket(self):
+        assert self.is_disappeared(*ProductPageLocators.ADDED_PRODUCT_NAME), \
+            "The add message did not disappear, but it should not be"
